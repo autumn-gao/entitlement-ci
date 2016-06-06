@@ -54,7 +54,7 @@ class SAM_Install_Base(Base):
         self.__rhevm_subscribe(server_ip, server_user, server_passwd)
         self.__add_rhevm40_repo(compose, server_ip, server_user, server_passwd)
         self.__install_rhevm(server_ip, server_user, server_passwd)
-        self.__deploy_rhevm36(server_ip, server_user, server_passwd)
+        self.__deploy_rhevm40(server_ip, server_user, server_passwd)
 
     def __stop_iptables(self, server_ip=None, server_user=None, server_passwd=None):
         cmd = "service iptables stop"
@@ -451,12 +451,6 @@ class SAM_Install_Base(Base):
             'enabled=1\n'
             'gpgcheck=0\n'
             
-            '[JBoss_latest]\n'
-            'name=JBoss_latest\n'
-            'baseurl=http://download.eng.tlv.redhat.com/pub/rhel/devel/candidates/JBEAP/composing/latest-JBEAP-6.4-RHEL-%s/compose/Server/x86_64/os/\n'
-            'enabled=1\n'
-            'gpgcheck=0\n'
-            
             '[test_rhel_z_stream]\n'
             'name=RHEL_7.2_candidate_zstream\n'
             'baseurl=http://download.eng.tlv.redhat.com/rel-eng/repos/rhel-7.2-z-candidate/x86_64/\n'
@@ -532,7 +526,7 @@ class SAM_Install_Base(Base):
 
     def __deploy_rhevm40(self, server_ip=None, server_user=None, server_passwd=None):
         ''' wget rhevm config file to rhevm '''
-        cmd = "wget -P /root/ %s/rhevm40_config" % self.get_vw_cons("data_folder")
+        cmd = "wget -P /root/ %s/rhevm_40_2_config" % self.get_vw_cons("data_folder")
         ret, output = self.runcmd(cmd, "wget rhevm repo file and add to rhel host", server_ip, server_user, server_passwd)
         if ret == 0:
             logger.info("Succeeded to wget rhevm config file to rhevm")
