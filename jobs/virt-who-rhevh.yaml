@@ -45,7 +45,7 @@
 
             if [ "$EXISTING_NODES_1" == "" ] || [ "$EXISTING_NODES_2" == "" ]
             then
-                echo "ERROR: Provision failed! Master Machine: $EXISTING_NODES_1, Slave Machine: $EXISTING_NODES_2; exit 1;
+                echo "ERROR: Provision failed! Master Machine: $EXISTING_NODES_1, Slave Machine: $EXISTING_NODES_2"; exit 1;
             fi
             
             echo "EXISTING_NODES=$EXISTING_NODES_1,$EXISTING_NODES_2">> $WORKSPACE/RESOURCES.txt
