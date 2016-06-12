@@ -40,8 +40,8 @@
                 echo "Waiting for provision finished ... Checking Status of job https://beaker.engineering.redhat.com/jobs/$JOBID"
                 sleep 180
             done
-            EXISTING_NODES_1=`bkr job-results --format junit-xml $BKR_JOBID | grep "Master Machine" | sed  's/.*\(hostname=".*"\).*/\1/g' | cut -d '"' -f 2`
-            EXISTING_NODES_2=`bkr job-results --format junit-xml $BKR_JOBID | grep "Slave Machine" | sed  's/.*\(hostname=".*"\).*/\1/g' | cut -d '"' -f 2`
+            EXISTING_NODES_1=`bkr job-results --prettyxml $BKR_JOBID | grep "Master Machine" | sed  's/.*\(system=".*"\).*/\1/g' | cut -d '"' -f 2`
+            EXISTING_NODES_2=`bkr job-results --prettyxml $BKR_JOBID | grep "Slave Machine" | sed  's/.*\(system=".*"\).*/\1/g' | cut -d '"' -f 2`
 
             if [ "$EXISTING_NODES_1" == "" ] || [ "$EXISTING_NODES_2" == "" ]
             then
