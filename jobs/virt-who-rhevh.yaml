@@ -29,6 +29,7 @@
             fi
             # Provision Test Resources Machine
             BKR_JOBID=`bkr job-submit $WORKSPACE/entitlement-ci/beaker/jobxml/virtwho_rhevh_job_sample.xml | cut -d \' -f 2`
+            JOBID=`echo $BKR_JOBID | cut -d ":" -f 2`
             while [ 1 ]
             do
                 reservesys=`bkr job-logs $BKR_JOBID | grep 'test_log--distribution-reservesys.log' | wc -l`
@@ -36,7 +37,7 @@
                 then
                     break
                 fi
-                echo "Waiting for provision finished ..."
+                echo "Waiting for provision finished ... Checking Status of job https://beaker.engineering.redhat.com/jobs/$JOBID"
                 sleep 180
             done
             EXISTING_NODES_1=`bkr job-results --format junit-xml $BKR_JOBID | grep "Master Machine" | sed  's/.*\(hostname=".*"\).*/\1/g' | cut -d '"' -f 2`
