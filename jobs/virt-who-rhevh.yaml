@@ -33,7 +33,7 @@
             while [ 1 ]
             do
                 reservesys=`bkr job-logs $BKR_JOBID | grep 'test_log--distribution-reservesys.log' | wc -l`
-                if [ $? == 2 ]
+                if [ $reservesys == 2 ]
                 then
                     break
                 fi
