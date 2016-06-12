@@ -7,7 +7,7 @@
                     "distro": "RHEL-6.7-20150702.0",
                     "arch": "X86_64",
                     "variant": "Server",
-                    "hostrequire": ["<and><system><name op='like' value='%ent-02-vm%'/></system></and>", "<hypervisor op="!=" value=""/>"]
+                    "hostrequire": ["<and><system><name op='like' value='%ent-02-vm%'/></system></and>", "hypervisor!="]
                 }
             ]
         }
