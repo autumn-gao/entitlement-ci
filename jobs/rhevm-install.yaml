@@ -110,6 +110,11 @@
             condition: 'SUCCESS'
             property-file: $WORKSPACE/SERVER.txt
             fail-on-missing: true
+          - project: 'virt-who-rhevh-provision'
+            current-parameters: false
+            condition: 'SUCCESS'
+            property-file: $WORKSPACE/SERVER.txt
+            fail-on-missing: true
 
 - job-group:
     name: rhevm-install-provision-runtest
