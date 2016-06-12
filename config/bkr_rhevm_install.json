@@ -8,7 +8,6 @@
                     "arch": "X86_64",
                     "variant": "Server",
                     "hostrequire": ["<and><system><name op='like' value='%ent-02-vm%'/></system></and>", "<hypervisor op="!=" value=""/>"]
-                    <hypervisor op="!=" value=""/>
                 }
             ]
         }
