@@ -202,7 +202,7 @@
             current-parameters: true
             condition: 'SUCCESS'
             property-file: $WORKSPACE/BUILD.txt
-      - default-trigger-publishers
+      - default-trigger-satellite-publishers
 
 - job-template:
     name: 'qe-satellite-6-2-trigger'
@@ -243,7 +243,7 @@
             current-parameters: true
             condition: 'SUCCESS'
             property-file: $WORKSPACE/BUILD.txt
-      - default-trigger-publishers
+      - default-trigger-satellite-publishers
 
 - job-group:
     name: qe-triggers
