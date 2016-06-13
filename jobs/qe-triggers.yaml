@@ -38,10 +38,6 @@
           artifacts: '*.txt, *.json'
           allow-empty: 'true'
       - trigger-parameterized-builds:
-          - project: 'satellite-install-provision'
-            current-parameters: true
-            condition: 'SUCCESS'
-            property-file: $WORKSPACE/BUILD.txt
           - project: 'satellite62-install-provision'
             current-parameters: true
             condition: 'SUCCESS'
@@ -104,7 +100,7 @@
           artifacts: '*.txt, *.json'
           allow-empty: 'true'
       - trigger-parameterized-builds:
-          - project: 'satellite-install-provision'
+          - project: 'satellite62-install-provision'
             current-parameters: true
             condition: 'SUCCESS'
             property-file: $WORKSPACE/BUILD.txt
