@@ -460,7 +460,7 @@ class RHSMBase(Base):
     def restart_rhsmcertd(self):
         cmd = "service rhsmcertd restart"
         (ret, output) = self.runcmd(cmd, "restart rhsmcertd service")
-        if ret == 0 and "Redirecting to /bin/systemctl restart  rhsmcertd.service" in output:
+        if ret == 0 and output != None:
             logger.info("It's successful to restart rhsmcertd service")
         else:
             raise FailException("Test Failed - Failed to restart rhsmcertd service.")
@@ -472,6 +472,24 @@ class RHSMBase(Base):
             logger.info("It's successful to stop rhsmcertd service")
         else:
             raise FailException("Test Failed - Failed to restart rhsmcertd service.")
+
+    # Return auto-attach interval
+    def check_auto_attach_interval(self):
+        cmd = "grep 'Auto-attach interval' /var/log/rhsm/rhsmcertd.log | tail -1"
+        (ret, output) = self.runcmd(cmd, "get auto attach interval value")
+        if ret == 0 and output != None:
+            logger.info("It's successful to check interval")
+            return output.split('interval: ')[1].split(' ')[0]
+        else:
+            raise FailException("Test Failed - Failed to check interval")
+
+    def set_auto_attach_interval(self, interval):
+        cmd = "sed -i '/autoAttachInterval/d' /etc/rhsm/rhsm.conf;echo 'autoAttachInterval=%s' >> /etc/rhsm/rhsm.conf" %(interval)
+        (ret, output) = self.runcmd(cmd,'set interval')
+        if ret == 0:
+            logger.info("It's successful to set interval")
+        else:
+            raise FailException("Test Failed - Failed to set interval")
 
     def check_and_backup_yum_repos(self):
         # check if yum.repos.d is empty
