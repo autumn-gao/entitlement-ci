@@ -405,6 +405,22 @@ class RHSMBase(Base):
         else:
             raise FailException("Test Failed - Failed to create activationkey.")
 
+    def set_system_time(self, system_time):
+        cmd = 'date -s %s'%system_time
+        (ret, output) = self.runcmd(cmd, "set system time expired")
+        if ret ==0:
+            logger.info("It's successful to set system time expired")
+        else:
+            raise FailException("Test Failed - failed to set system time expired")
+
+    def restore_system_time(self):
+        cmd = 'hwclock --hctosys'
+        (ret, output) = self.runcmd(cmd, "restore system time")
+        if ret ==0:
+            logger.info("It's successful to restore system time")
+        else:
+            raise FailException("Test Failed - failed to restore system time")
+
     
     def parse_listconsumed_output(self, output):
         datalines = output.splitlines()

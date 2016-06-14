@@ -17,7 +17,7 @@ class tc_ID509792_proper_message_after_yum_operation_when_registered_next_genera
             self.sub_autosubscribe(autosubprod)
 
             # set client's system time as expired date(in order to not influence other test with server, not set server's system time as expired date)
-            self.set_system_time_expired(20200101)
+            self.set_system_time(20200101)
 
             # yum operation
             cmd = 'yum repolist'
@@ -33,22 +33,6 @@ class tc_ID509792_proper_message_after_yum_operation_when_registered_next_genera
             self.restore_system_time()
             self.restore_environment()
             logger.info("=========== End of Running Test Case: %s ===========" % case_name)
-
-    def set_system_time_expired(self, system_time):
-        cmd = 'date -s %s'%system_time
-        (ret, output) = self.runcmd(cmd, "set system time expired")
-        if ret ==0:
-            logger.info("It's successful to set system time expired")
-        else:
-            raise FailException("Test Failed - failed to set system time expired")
-
-    def restore_system_time(self):
-        cmd = 'hwclock --hctosys'
-        (ret, output) = self.runcmd(cmd, "restore system time")
-        if ret ==0:
-            logger.info("It's successful to restore system time")
-        else:
-            raise FailException("Test Failed - failed to restore system time")
 
 if __name__ == "__main__":
     unittest.main()
