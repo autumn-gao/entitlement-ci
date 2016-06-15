@@ -507,6 +507,24 @@ class RHSMBase(Base):
         else:
             raise FailException("Test Failed - Failed to set interval")
 
+    # Return insecure value of rhsm.conf: 0 or 1
+    def check_insecure_value(self):
+        cmd = "grep insecure /etc/rhsm/rhsm.conf"
+        (ret, output) = self.runcmd(cmd,'get insecure value')
+        if ret == 0:
+            logger.info("It's successful to get insecure value")
+            return output.split('=')[1].strip()
+        else:
+            raise FailException("Test Failed - Failed to check interval")
+
+    def set_insecure_value(self, insecurevalue):
+        cmd="sed -i '/insecure/d' /etc/rhsm/rhsm.conf;sed -i '/# Set to 1 to disable certificate validation:/a\insecure = %s' /etc/rhsm/rhsm.conf"%insecurevalue
+        (ret, output) = self.runcmd(cmd,'set insecure value')
+        if ret == 0 and self.check_insecure_value() == insecurevalue:
+            logger.info("It's successful to set insecure value")
+        else:
+            raise FailException("Test Failed - Failed to set insecure value")
+
     def check_and_backup_yum_repos(self):
         # check if yum.repos.d is empty
         cmd = "ls /etc/yum.repos.d | wc -l"
@@ -543,3 +561,11 @@ class RHSMBase(Base):
                 raise FailException("Test Failed - Failed to restore repo.")
         else:
             logger.info("no need to restore the repos")
+
+    def clear_file_content(self, logfile):
+        cmd = 'echo "" > %s'%logfile
+        (ret, output) = self.runcmd(cmd, "clear file content")
+        if ret == 0:
+            logger.info("It's successful to clear contend of %s"%logfile)
+        else:
+            raise FailException("Test Failed - Failed to clear content.")
