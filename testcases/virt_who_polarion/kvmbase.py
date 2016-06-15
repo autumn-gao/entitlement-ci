@@ -121,6 +121,13 @@ class KVMBase(VIRTWHOBase):
         else:
             raise FailException("Test Failed - Failed to wget ipget.sh to /root/.")
 
+    def getip_vm(self, guest_name, targetmachine_ip=""):
+        guestip = self.__mac_to_ip(self.__get_dom_mac_addr(guest_name, targetmachine_ip), targetmachine_ip)
+        if guestip != "" and (not "can not get ip by mac" in guestip):
+            return guestip
+        else:
+            raise FailException("Test Failed - Failed to get ip of guest %s." % guest_name)
+
     def __get_dom_mac_addr(self, domname, targetmachine_ip=""):
         """
         Get mac address of a domain
@@ -179,13 +186,6 @@ class KVMBase(VIRTWHOBase):
             raise FailException("Faild to get guest %s ip." % guest_name)
         else:
             return ipAddress
-
-    def getip_vm(self, guest_name, targetmachine_ip=""):
-        guestip = self.__mac_to_ip(self.__get_dom_mac_addr(guest_name, targetmachine_ip), targetmachine_ip)
-        if guestip != "" and (not "can not get ip by mac" in guestip):
-            return guestip
-        else:
-            raise FailException("Test Failed - Failed to get ip of guest %s." % guest_name)
 
     def vw_define_all_guests(self, targetmachine_ip=""):
         guest_path = self.get_vw_cons("nfs_image_path")

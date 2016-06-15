@@ -28,7 +28,7 @@ class VIRTWHOBase(Base):
         self.cm_install_basetool(targetmachine_ip)
         # system setup for virt-who testing
         cmd = "yum install -y virt-who"
-        ret, output = self.runcmd(cmd, "install virt-who for esx testing", showlogger=False)
+        ret, output = self.runcmd(cmd, "install virt-who for virt-who testing", showlogger=False)
         if ret == 0:
             logger.info("Succeeded to setup system for virt-who testing.")
         else:
@@ -74,6 +74,9 @@ class VIRTWHOBase(Base):
         elif mode == "hyperv":
             hyperv_owner, hyperv_env, hyperv_server, hyperv_username, hyperv_password = self.get_hyperv_info()
             cmd = "virt-who --hyperv --hyperv-owner=%s --hyperv-env=%s --hyperv-server=%s --hyperv-username=%s --hyperv-password=%s" % (hyperv_owner, hyperv_env, hyperv_server, hyperv_username, hyperv_password)
+        elif mode == "xen":
+            hyperv_owner, hyperv_env, hyperv_server, hyperv_username, hyperv_password = self.get_hyperv_info()
+            cmd = "virt-who --xen --xen-owner=%s --xen-env=%s --xen-server=%s --xen-username=%s --xen-password=%s" % (hyperv_owner, hyperv_env, hyperv_server, hyperv_username, hyperv_password)
         elif mode == "rhevm":
             rhevm_owner, rhevm_env, rhevm_username, rhevm_password = self.get_rhevm_info()
             rhevm_server = "https:\/\/" + get_exported_param("RHEVM_IP") + ":443"

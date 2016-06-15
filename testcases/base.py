@@ -129,6 +129,9 @@ class Base(unittest.TestCase):
     def runcmd_esx(self, cmd, cmddesc=None, targetmachine_ip=None, timeout=None, showlogger=True):
         return self.runcmd(cmd, cmddesc, targetmachine_ip, "root", "qwer1234P!", timeout, showlogger)
 
+    def runcmd_xen(self, cmd, cmddesc=None, targetmachine_ip=None, timeout=None, showlogger=True):
+        return self.runcmd(cmd, cmddesc, targetmachine_ip, "root", "Welcome1", timeout, showlogger)
+
     def runcmd_sam(self, cmd, cmddesc=None, targetmachine_ip=None, targetmachine_user=None, targetmachine_pass=None, timeout=None, showlogger=True):
         return self.runcmd(cmd, cmddesc, targetmachine_ip, "root", "redhat", timeout, showlogger)
 
@@ -162,6 +165,9 @@ class Base(unittest.TestCase):
 
     def get_hyperv_info(self):
         return self.get_vw_cons("server_owner"), self.get_vw_cons("server_env"), self.get_vw_cons("VIRTWHO_HYPERV_SERVER"), self.get_vw_cons("VIRTWHO_HYPERV_USERNAME"), self.get_vw_cons("VIRTWHO_HYPERV_PASSWORD")
+
+    def get_xen_info(self):
+        return self.get_vw_cons("server_owner"), self.get_vw_cons("server_env"), self.get_vw_cons("VIRTWHO_XEN_SERVER"), self.get_vw_cons("VIRTWHO_XEN_USERNAME"), self.get_vw_cons("VIRTWHO_XEN_PASSWORD")
 
     def get_rhevm_info(self):
         return self.get_vw_cons("server_owner"), self.get_vw_cons("server_env"), self.get_vw_cons("VIRTWHO_RHEVM_USERNAME"), self.get_vw_cons("VIRTWHO_RHEVM_PASSWORD")

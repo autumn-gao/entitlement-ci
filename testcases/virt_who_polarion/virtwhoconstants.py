@@ -33,12 +33,19 @@ class VIRTWHOConstants(object):
     "VIRTWHO_LIBVIRT_PASSWORD":         "",
 
     # for hyperv
-    "HYPERV_HOST":                         "10.73.5.212",
-    "HYPERV_PORT":                         6555,
-    "HYPERV_GUEST_NAME":                   "HYPERV_7.2_Server_x86_64",
-    "VIRTWHO_HYPERV_SERVER":               "10.73.5.212",
-    "VIRTWHO_HYPERV_USERNAME":             "administrator",
-    "VIRTWHO_HYPERV_PASSWORD":             "Welcome1",
+    "HYPERV_HOST":                          "10.73.5.212",
+    "HYPERV_PORT":                          6555,
+    "HYPERV_GUEST_NAME":                    "HYPERV_7.2_Server_x86_64",
+    "VIRTWHO_HYPERV_SERVER":                "10.73.5.212",
+    "VIRTWHO_HYPERV_USERNAME":              "administrator",
+    "VIRTWHO_HYPERV_PASSWORD":              "Welcome1",
+
+    # for xen
+    "XEN_HOST":                             "10.73.5.210",
+    "XEN_GUEST_NAME":                       "XEN_6.8_Server_x86_64",
+    "VIRTWHO_XEN_SERVER":                   "10.73.5.210",
+    "VIRTWHO_XEN_USERNAME":                 "root",
+    "VIRTWHO_XEN_PASSWORD":                 "Welcome1",
 
     # limited subscription
     "productid_guest":                  "RH0103708",
@@ -75,6 +82,13 @@ class VIRTWHOConstants(object):
     "hyperv_error_msg_without_env":             "Option --hyperv-env (or VIRTWHO_HYPERV_ENV environment variable) needs to be set",
     "hyperv_error_msg_with_wrong_env":          "Couldn't find environment 'xxxxxxx'",
     "hyperv_error_msg_without_env_in_conf":     "Option `env` needs to be set in config `hyperv`",
+
+    "xen_error_msg_without_owner":           "Option --xen-owner (or VIRTWHO_XEN_OWNER environment variable) needs to be set",
+    "xen_error_msg_with_wrong_owner":        "Couldn't find organization 'xxxxxxx'",
+    "xen_error_msg_without_owner_in_conf":   "Option `owner` needs to be set in config `xen`",
+    "xen_error_msg_without_env":             "Option --xen-env (or VIRTWHO_XEN_ENV environment variable) needs to be set",
+    "xen_error_msg_with_wrong_env":          "Couldn't find environment 'xxxxxxx'",
+    "xen_error_msg_without_env_in_conf":     "Option `env` needs to be set in config `xen`",
 
     "rhevm_error_msg_without_owner":            "Option --rhevm-owner (or VIRTWHO_RHEVM_OWNER environment variable) needs to be set",
     "rhevm_error_msg_with_wrong_owner":         "Couldn't find organization 'xxxxxxx'",
