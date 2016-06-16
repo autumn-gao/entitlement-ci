@@ -74,10 +74,12 @@ class XENBase(VIRTWHOBase):
             raise FailException("Failed to get vm %s uuid" % guest_name)
 
     def xen_get_host_uuid(self, targetmachine_ip=""):
-        cmd = "xenstore-read vm | xargs -n1 basename"
+        cmd = "xe host-list"
         ret, output = self.runcmd_xen(cmd, "get host's uuid", targetmachine_ip)
         if ret == 0:
-            return output.strip()
+            rex = re.compile(r'uuid(.*?)\n', re.S)
+            guest_uuid = rex.findall(output)[0].split(":")[1].strip()
+            return guest_uuid
         else:
             raise FailException("Failed to get host's uuid")
 
@@ -95,7 +97,7 @@ class XENBase(VIRTWHOBase):
         cmd = "xe vm-start vm=%s" % guest_name
         ret, output = self.runcmd_xen(cmd, "start vm %s" % guest_name, targetmachine_ip)
         if ret == 0:
-            status = self.xen_get_guest_status(guest_name)
+            status = self.xen_get_guest_status(guest_name, targetmachine_ip)
             if "running" in status:
                 logger.info("Success to start vm %s" % guest_name)
             else:
@@ -107,7 +109,7 @@ class XENBase(VIRTWHOBase):
         cmd = "xe vm-shutdown vm=%s" % guest_name
         ret, output = self.runcmd_xen(cmd, "shutdown vm %s" % guest_name, targetmachine_ip)
         if ret == 0:
-            status = self.xen_get_guest_status(guest_name)
+            status = self.xen_get_guest_status(guest_name, targetmachine_ip)
             if "halted" in status:
                 logger.info("Success to stop vm %s" % guest_name)
             else:
@@ -119,7 +121,7 @@ class XENBase(VIRTWHOBase):
         cmd = "xe vm-suspend vm=%s" % guest_name
         ret, output = self.runcmd_xen(cmd, "suspend vm %s" % guest_name, targetmachine_ip)
         if ret == 0:
-            status = self.xen_get_guest_status(guest_name)
+            status = self.xen_get_guest_status(guest_name, targetmachine_ip)
             if "suspended" in status:
                 logger.info("Success to suspend vm %s" % guest_name)
             else:
@@ -131,7 +133,7 @@ class XENBase(VIRTWHOBase):
         cmd = "xe vm-resume vm=%s" % guest_name
         ret, output = self.runcmd_xen(cmd, "resume vm %s" % guest_name, targetmachine_ip)
         if ret == 0:
-            status = self.xen_get_guest_status(guest_name)
+            status = self.xen_get_guest_status(guest_name, targetmachine_ip)
             if "running" in status:
                 logger.info("Success to resume vm %s" % guest_name)
             else:
