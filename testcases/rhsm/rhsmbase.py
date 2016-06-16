@@ -569,3 +569,19 @@ class RHSMBase(Base):
             logger.info("It's successful to clear contend of %s"%logfile)
         else:
             raise FailException("Test Failed - Failed to clear content.")
+
+    def install_pkg(self, pkgname):
+        cmd = "yum install -y %s"%pkgname
+        (ret, output) = self.runcmd(cmd, "install package")
+        if ret ==0:
+            logger.info("It's successful to install package %s"%pkgname)
+        else:
+            raise FailException("Test Failed - Failed to install package %s"%pkgname)
+
+    def remove_pkg(self, pkgname):
+        cmd ="yum remove -y %s"%pkgname
+        (ret, output) = self.runcmd(cmd, "remove package")
+        if ret ==0:
+            logger.info("It's successful to remove package %s"%pkgname)
+        else:
+            raise FailException("Test Failed - Failed to remove package %s"%pkgname)
