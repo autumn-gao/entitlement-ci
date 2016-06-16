@@ -40,11 +40,13 @@ class tc_ID509855_remind_message_after_disabling_manage_repos_in_rhsm_conf(RHSMB
                     raise FailException("Test Failed - Failed to check reminding message")
             else:
                 raise FailException("Test Failed - Failed to check manage_repos, the value is not 0")
-            
+
             self.assert_(True, case_name)
+
         except Exception, e:
             logger.error("Test Failed - ERROR Message:" + str(e))
             self.assert_(False, case_name)
+
         finally:
             self.set_manage_repos_value('1')
             self.restore_environment()
