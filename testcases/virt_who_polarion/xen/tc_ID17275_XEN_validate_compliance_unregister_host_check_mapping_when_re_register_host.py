@@ -16,7 +16,7 @@ class tc_ID17275_XEN_validate_compliance_unregister_host_check_mapping_when_re_r
 
             self.hyperv_start_guest(guest_name)
             guestip = self.hyperv_get_guest_ip(guest_name)
-            guestuuid = self.hyperv_get_guest_guid(guest_name)
+            guestuuid = self.hyperv_get_guest_uuid(guest_name)
             hostuuid = self.hyperv_get_host_uuid()
 
             # register guest to SAM

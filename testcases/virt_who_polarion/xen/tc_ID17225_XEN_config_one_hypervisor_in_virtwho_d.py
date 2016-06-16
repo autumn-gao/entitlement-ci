@@ -9,10 +9,10 @@ class tc_ID17225_XEN_config_one_hypervisor_in_virtwho_d(XENBase):
         try:
             self.runcmd_service("stop_virtwho")
 
-            # (1) Disable hyperv mode in /etc/sysconfig/virt-who
+            # (1) Disable xen mode in /etc/sysconfig/virt-who
             self.config_option_disable("VIRTWHO_XEN")
-            # (2) Config hyperv mode in /etc/virt-who.d
-            self.set_virtwho_sec_config("hyperv")
+            # (2) Config xen mode in /etc/virt-who.d
+            self.set_virtwho_sec_config("xen")
             self.vw_check_mapping_info_number_in_rhsm_log()
 
             self.assert_(True, case_name)
@@ -20,7 +20,7 @@ class tc_ID17225_XEN_config_one_hypervisor_in_virtwho_d(XENBase):
             logger.error("Test Failed - ERROR Message:" + str(e))
             self.assert_(False, case_name)
         finally:
-            self.set_hyperv_conf()
+            self.set_xen_conf()
             self.unset_all_virtwho_d_conf()
             logger.info("========== End of Running Test Case: %s ==========" % case_name)
 

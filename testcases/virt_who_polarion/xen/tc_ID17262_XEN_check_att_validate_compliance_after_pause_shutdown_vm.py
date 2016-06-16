@@ -10,11 +10,11 @@ class tc_ID17262_XEN_check_att_validate_compliance_after_pause_shutdown_vm(XENBa
             SERVER_IP, SERVER_HOSTNAME, SERVER_USER, SERVER_PASS = self.get_server_info()
 
             guest_name = self.get_vw_guest_name("XEN_GUEST_NAME")
-            hyperv_host_ip = self.get_vw_cons("XEN_HOST")
-            guest_uuid = self.hyperv_get_guest_guid(guest_name)
-            host_uuid = self.hyperv_get_host_uuid()
-            self.hyperv_start_guest(guest_name)
-            guestip = self.hyperv_get_guest_ip(guest_name)
+            xen_host_ip = self.get_vw_cons("XEN_HOST")
+            guest_uuid = self.xen_get_guest_uuid(guest_name, xen_host_ip)
+            host_uuid = self.xen_get_host_uuid(xen_host_ip)
+            self.xen_start_guest(guest_name, xen_host_ip)
+            guestip = self.xen_get_guest_ip(guest_name, xen_host_ip)
 
             test_sku = self.get_vw_cons("datacenter_sku_id")
             guest_bonus_sku = self.get_vw_cons("datacenter_bonus_sku_id")
@@ -32,34 +32,34 @@ class tc_ID17262_XEN_check_att_validate_compliance_after_pause_shutdown_vm(XENBa
             self.sub_listconsumed(sku_name, guestip)
             # (2) Start guest , check guest's uuid and guest's attribute 
             self.hypervisor_check_uuid(host_uuid, guest_uuid, uuidexists=True)
-            self.vw_check_attr(guest_name, 1, 'hyperv', 'hyperv', 1, guest_uuid)
+            self.vw_check_attr(guest_name, 1, 'xen', 'xen', 1, guest_uuid)
             # (3) Pause guest    
-            self.hyperv_suspend_guest(guest_name)
+            self.xen_suspend_guest(guest_name, xen_host_ip)
             # check if the uuid is correctly monitored by virt-who.
             self.hypervisor_check_uuid(host_uuid, guest_uuid, uuidexists=True)
-            self.vw_check_attr(guest_name, 1, 'hyperv', 'hyperv', 3, guest_uuid)
+            self.vw_check_attr(guest_name, 1, 'xen', 'xen', 3, guest_uuid)
             # (4) Resume guest    
-            self.hyperv_resume_guest(guest_name)
+            self.xen_resume_guest(guest_name, xen_host_ip)
             # check if the uuid is correctly monitored by virt-who on host1 and host2
             self.hypervisor_check_uuid(host_uuid, guest_uuid, uuidexists=True)
-            self.vw_check_attr(guest_name, 1, 'hyperv', 'hyperv', 1, guest_uuid)
+            self.vw_check_attr(guest_name, 1, 'xen', 'xen', 1, guest_uuid)
             # consumed subscriptions is still exist on guest
             self.sub_listconsumed(sku_name, guestip)
             # (5) Stop guest    
-            self.hyperv_stop_guest(guest_name)
+            self.xen_stop_guest(guest_name, xen_host_ip)
             # check if the uuid is correctly monitored by virt-who.
             self.hypervisor_check_uuid(host_uuid, guest_uuid, uuidexists=True)
-            self.vw_check_attr(guest_name, 0, 'hyperv', 'hyperv', 5, guest_uuid)
+            self.vw_check_attr(guest_name, 0, 'xen', 'xen', 5, guest_uuid)
 
             self.assert_(True, case_name)
         except Exception, e:
             logger.error("Test Failed - ERROR Message:" + str(e))
             self.assert_(False, case_name)
         finally:
-            self.hyperv_start_guest(guest_name)
+            self.xen_start_guest(guest_name, xen_host_ip)
             if guestip != None and guestip != "":
                 self.sub_unregister(guestip)
-            self.hyperv_stop_guest(guest_name)
+            self.xen_stop_guest(guest_name, xen_host_ip)
             logger.info("========== End of Running Test Case: %s ==========" % case_name)
 
 if __name__ == "__main__":

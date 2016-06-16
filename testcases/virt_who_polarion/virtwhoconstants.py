@@ -89,6 +89,7 @@ class VIRTWHOConstants(object):
     "xen_error_msg_without_env":             "Option --xen-env (or VIRTWHO_XEN_ENV environment variable) needs to be set",
     "xen_error_msg_with_wrong_env":          "Couldn't find environment 'xxxxxxx'",
     "xen_error_msg_without_env_in_conf":     "Option `env` needs to be set in config `xen`",
+    "xen_error_msg_wrong_encryped_password": "Option \"encrypted_password\" in config named \"xen\" can't be decrypted, possibly corrupted",
 
     "rhevm_error_msg_without_owner":            "Option --rhevm-owner (or VIRTWHO_RHEVM_OWNER environment variable) needs to be set",
     "rhevm_error_msg_with_wrong_owner":         "Couldn't find organization 'xxxxxxx'",

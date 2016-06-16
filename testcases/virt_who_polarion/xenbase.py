@@ -4,13 +4,15 @@ from utils.exception.failexception import FailException
 
 class XENBase(VIRTWHOBase):
 
-#     def xen_get_hostname(self, guest_name, targetmachine_ip=""):
-#     # Get host's name
-#         output = self.runcmd_xen("(Get-WMIObject  Win32_ComputerSystem).DNSHostName")
-#         if output is not "":
-#             hostname = output
-#             logger.info("xen hostname is %s" % hostname)
-#             return hostname
+    def xen_get_hostname(self, targetmachine_ip=""):
+        cmd = "hostname"
+        ret, output = self.runcmd_xen(cmd, "geting xenserver hostname", targetmachine_ip)
+        if ret == 0:
+            hostname = output.strip(' \r\n').strip('\r\n') 
+            logger.info("Succeeded to get xenserver hostname %s." % hostname) 
+            return hostname
+        else:
+            raise FailException("Test Failed - Failed to get xenserver hostname %s." % self.get_hg_info(targetmachine_ip))
 
     def __get_vm_mac_addr(self, guest_name, targetmachine_ip=""):
         cmd = "xe vm-vif-list vm=%s" % guest_name
@@ -23,7 +25,7 @@ class XENBase(VIRTWHOBase):
             raise FailException("Failed to get vm %s mac" % guest_name)
 
     def __generate_ipget_file(self, targetmachine_ip=""):
-        generate_ipget_cmd = "wget -nc %s/ipget_xen.sh -P /root/ && chmod 777 /root/ipget.sh" % self.get_vw_cons("data_folder")
+        generate_ipget_cmd = "wget -nc %s/ipget_xen.sh -P /root/ && chmod 777 /root/ipget_xen.sh" % self.get_vw_cons("data_folder")
         ret, output = self.runcmd_xen(generate_ipget_cmd, "wget ipget_xen.sh file", targetmachine_ip)
         if ret == 0 or "already there" in output:
             logger.info("Succeeded to wget ipget.sh to /root/.")
@@ -36,8 +38,9 @@ class XENBase(VIRTWHOBase):
         cmd = "sh /root/ipget_xen.sh %s | grep -v nmap" % mac
         ret, output = self.runcmd_xen(cmd, "nmap to get guest ip", targetmachine_ip, showlogger=False)
         if ret == 0:
-            logger.info("Succeeded to get ip address.")
-            return output.strip("\n").strip("")
+            ip = output.strip("\n").strip("")
+            logger.info("Succeeded to get ip address %s." % ip)
+            return ip
         else:
             raise FailException("Test Failed - Failed to get ip address.")
 

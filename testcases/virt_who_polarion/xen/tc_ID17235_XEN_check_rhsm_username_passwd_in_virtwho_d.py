@@ -10,13 +10,13 @@ class tc_ID17235_XEN_check_rhsm_username_passwd_in_virtwho_d(XENBase):
             server_ip, server_hostname, server_user, server_pass = self.get_server_info()
             self.runcmd_service("stop_virtwho")
 
-            # (1) Disable hyperv mode in /etc/sysconfig/virt-who
+            # (1) Disable xen mode in /etc/sysconfig/virt-who
             self.config_option_disable("VIRTWHO_XEN")
-            # (2) Config hyperv mode in /etc/virt-who.d with correct rhsm_username and rhsm_password
-            self.set_rhsm_user_pass("hyperv", server_user, server_pass)
+            # (2) Config xen mode in /etc/virt-who.d with correct rhsm_username and rhsm_password
+            self.set_rhsm_user_pass("xen", server_user, server_pass)
             self.vw_check_mapping_info_number_in_rhsm_log()
-            # (3) Config hyperv mode in /etc/virt-who.d with wrong rhsm_username and rhsm_password
-            self.set_rhsm_user_pass("hyperv", server_user, "xxxxxxxx")
+            # (3) Config xen mode in /etc/virt-who.d with wrong rhsm_username and rhsm_password
+            self.set_rhsm_user_pass("xen", server_user, "xxxxxxxx")
             self.vw_check_message_in_rhsm_log("BUG yet")
 
             self.assert_(True, case_name)
@@ -25,7 +25,7 @@ class tc_ID17235_XEN_check_rhsm_username_passwd_in_virtwho_d(XENBase):
             self.assert_(False, case_name)
         finally:
             self.unset_all_virtwho_d_conf()
-            self.set_hyperv_conf()
+            self.set_xen_conf()
             logger.info("========== End of Running Test Case: %s ==========" % case_name)
 
 if __name__ == "__main__":

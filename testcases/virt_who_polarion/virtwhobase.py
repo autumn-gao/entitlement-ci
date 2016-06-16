@@ -75,8 +75,8 @@ class VIRTWHOBase(Base):
             hyperv_owner, hyperv_env, hyperv_server, hyperv_username, hyperv_password = self.get_hyperv_info()
             cmd = "virt-who --hyperv --hyperv-owner=%s --hyperv-env=%s --hyperv-server=%s --hyperv-username=%s --hyperv-password=%s" % (hyperv_owner, hyperv_env, hyperv_server, hyperv_username, hyperv_password)
         elif mode == "xen":
-            hyperv_owner, hyperv_env, hyperv_server, hyperv_username, hyperv_password = self.get_hyperv_info()
-            cmd = "virt-who --xen --xen-owner=%s --xen-env=%s --xen-server=%s --xen-username=%s --xen-password=%s" % (hyperv_owner, hyperv_env, hyperv_server, hyperv_username, hyperv_password)
+            xen_owner, xen_env, xen_server, xen_username, xen_password = self.get_xen_info()
+            cmd = "virt-who --xen --xen-owner=%s --xen-env=%s --xen-server=%s --xen-username=%s --xen-password=%s" % (xen_owner, xen_env, xen_server, xen_username, xen_password)
         elif mode == "rhevm":
             rhevm_owner, rhevm_env, rhevm_username, rhevm_password = self.get_rhevm_info()
             rhevm_server = "https:\/\/" + get_exported_param("RHEVM_IP") + ":443"
@@ -191,6 +191,8 @@ class VIRTWHOBase(Base):
             virtwho_server = get_exported_param("REMOTE_IP")
         elif mode == "hyperv":
             virtwho_owner, virtwho_env, virtwho_server, virtwho_username, virtwho_password = self.get_hyperv_info()
+        elif mode == "xen":
+            virtwho_owner, virtwho_env, virtwho_server, virtwho_username, virtwho_password = self.get_xen_info()
         elif mode == "rhevm":
             virtwho_owner, virtwho_env, virtwho_username, virtwho_password = self.get_rhevm_info()
             virtwho_server = "https://" + get_exported_param("RHEVM_IP") + ":443"
@@ -363,7 +365,8 @@ class VIRTWHOBase(Base):
         remote_ip = get_exported_param("REMOTE_IP")
         username = "root"
         password = "red2015"
-        virt_who_password_cmd = "python /usr/share/virt-who/virtwhopassword.py" 
+        # virt_who_password_cmd = "python /usr/share/virt-who/virtwhopassword.py"
+        virt_who_password_cmd = "virt-who-password"
         logger.info("run command %s in %s" % (virt_who_password_cmd, remote_ip))
         
         ssh = paramiko.SSHClient()
@@ -1397,8 +1400,8 @@ class VIRTWHOBase(Base):
                 if "uuid" in line:
                     khrightloc = line.find("<uuid>")
                     khleftloc = line.find("</uuid>")
-                    uuid = line[khrightloc+6:khleftloc].strip()
-                    logger.info("Success to get hypervisor's uuid %s" %uuid)
+                    uuid = line[khrightloc + 6:khleftloc].strip()
+                    logger.info("Success to get hypervisor's uuid %s" % uuid)
                     return uuid
         else:
             raise FailException("Failed to get hypervisor's capabilities on %s" % self.get_hg_info(targetmachine_ip))
